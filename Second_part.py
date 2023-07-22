@@ -7,7 +7,18 @@ import re
 import ast
 
 def main():
-    
+    """
+    Основная функция для создания интерфейса генератора упражнений по английскому языку.
+
+    Процесс работы функции:
+    1. Отображает заголовок страницы.
+    2. Добавляет элементы управления для загрузки файла CSV и указания количества заданий.
+    3. При загрузке файла CSV и выборе количества заданий, генерирует упражнения и предоставляет пользователю интерфейс
+       для взаимодействия с ними.
+    4. Проверяет ответы пользователя и отображает результаты.
+
+    Функция не принимает никаких параметров, так как все данные вводятся пользователем через элементы управления.
+    """
     st.title("Генератор упражнений по английскому языку")
 
     # Добавьте элемент управления для загрузки файла CSV
@@ -45,7 +56,7 @@ def main():
                 sentence = row['raw']
                 code_word_index = eval(row['object'])[1]  # Get the code_word_index
                 words = sentence.split()
-                # Replace the code_word_index with the blank
+                
                 words[code_word_index] = "_____"
                 sentence_with_blank = " ".join(words)
     
@@ -93,7 +104,7 @@ def main():
                 sentence = row['raw']
                 code_word_index = eval(row['object'])[1]  # Get the code_word_index
                 words = sentence.split()
-                # Replace the code_word_index with the blank
+                
                 words[code_word_index] = "_____"
                 sentence_with_blank = " ".join(words)
     
