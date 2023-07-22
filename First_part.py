@@ -16,15 +16,32 @@ import re
 corpus = api.load('text8')
 
 model = Word2Vec(corpus)
-nlp = spacy.load("C:/Users/denis/AppData/Roaming/Python/Python310/site-packages/en_core_web_md/en_core_web_md-3.5.0")
+nlp = spacy.load("en_core_web_md")
 
 class SynonymsGenerator:
+    """
+    Класс SynonymsGenerator используется для генерации синонимов, неправильных предложений
+    и структуры предложений на основе входных предложений и модели Word2Vec.
+
+    Parameters:
+        model (Word2Vec): Модель Word2Vec для работы с текстовыми данными.
+        nlp (spacy.language.Language): Объект spaCy для обработки естественного языка.
+    """
     
     def __init__(self, model, nlp):
         self.model = model
         self.nlp = nlp
     
     def generate_object(self, sentence):
+        """
+        Генерирует объект с кодовым словом и его индексом в предложении.
+
+        Parameters:
+            sentence (str): Входное предложение.
+
+        Returns:
+            list: Список с кодовым словом и его индексом.
+        """
         words = sentence.split()
         words = [word.strip(string.punctuation) for word in words] 
         words = [word for word in words if word] 
@@ -39,6 +56,15 @@ class SynonymsGenerator:
         return [code_word, code_word_index]
 
     def generate_synonyms(self, code_word):
+        """
+        Генерирует синонимы для кодового слова.
+
+        Parameters:
+            code_word (str): Кодовое слово.
+
+        Returns:
+            list: Список с синонимами.
+        """
         code_word = code_word[0].lower()
         if code_word in ['is', 'was', 'were']:
             synonym_1 = 'is'
@@ -61,6 +87,15 @@ class SynonymsGenerator:
         return answer_choices
                                                                 
     def generate_incorrect_sentence(self, sentence):
+         """
+        Генерирует неправильное предложение на основе входного предложения.
+
+        Parameters:
+            sentence (str): Входное предложение.
+
+        Returns:
+            list: Список с вариантами неправильного предложения.
+        """
         
         sentences = set()
 
@@ -74,7 +109,7 @@ class SynonymsGenerator:
 
             random_token = random.choice(tokens)
             
-            while random_token.is_punct:  # Check if the randomly chosen token is punctuation
+            while random_token.is_punct:  
                 random_token = random.choice(tokens)
 
             if random_token.tag_ in ['JJ', 'JJR', 'JJS']:
@@ -99,7 +134,6 @@ class SynonymsGenerator:
 
             new_sentence = ' '.join(tokens)
 
-            # Capitalize the sentence again
             new_sentence = new_sentence[:1].upper() + new_sentence[1:]
             sentence = sentence[:1].upper() + sentence[1:]
             
@@ -122,6 +156,15 @@ class SynonymsGenerator:
         return answer_choices
     
     def generate_sentence_structure(self, sentence):
+        """
+        Генерирует структуру предложения на основе входного предложения.
+
+        Parameters:
+            sentence (str): Входное предложение.
+
+        Returns:
+            dict: Словарь с членами предложения (Подлежащим, Сказуемым, Объектом).
+        """
     
         # Обработка предложения
         doc = nlp(sentence)
@@ -155,11 +198,16 @@ class SynonymsGenerator:
     
         return answers
 
-with open('C:/Users/denis/Desktop/Little_Red_Cap_ Jacob_and_Wilhelm_Grimm.txt', 'r') as file:
-    text = file.read()
-sentences = sent_tokenize(text)
-
 def generate_exercises(text_input):
+    """
+    Генерирует упражнения на основе входного текста.
+
+    Parameters:
+        text_input (str): Входной текст, содержащий предложения на английском языке.
+
+    Returns:
+        pandas.DataFrame: DataFrame с упражнениями, содержащими вопросы и варианты ответов.
+    """
     
     sentences = sent_tokenize(text)
 
