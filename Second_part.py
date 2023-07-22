@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
 import pandas as pd
 import numpy as np
 import random
@@ -11,10 +5,6 @@ import string
 import streamlit as st
 import re
 import ast
-
-
-# In[4]:
-
 
 def main():
     
@@ -128,4 +118,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
