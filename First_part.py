@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
-
-
 import pandas as pd
 import numpy as np
 import random
@@ -19,18 +13,10 @@ import pyinflect
 import streamlit as st
 import re
 
-
-# In[7]:
-
-
 corpus = api.load('text8')
 
 model = Word2Vec(corpus)
 nlp = spacy.load("C:/Users/denis/AppData/Roaming/Python/Python310/site-packages/en_core_web_md/en_core_web_md-3.5.0")
-
-
-# In[8]:
-
 
 class SynonymsGenerator:
     
@@ -169,17 +155,9 @@ class SynonymsGenerator:
     
         return answers
 
-
-# In[9]:
-
-
 with open('C:/Users/denis/Desktop/Little_Red_Cap_ Jacob_and_Wilhelm_Grimm.txt', 'r') as file:
     text = file.read()
 sentences = sent_tokenize(text)
-
-
-# In[14]:
-
 
 def generate_exercises(text_input):
     
@@ -225,14 +203,9 @@ def generate_exercises(text_input):
             df.at[index, 'answers'] = generator.generate_object(row['raw'])
     return df
 
-
-# In[16]:
-
-
 def main():
     st.title("Генератор упражнений по английскому языку")
 
-    # User input
     text_input = st.text_area("Введите текст", "")
 
     if text_input:  # Проверка, является ли переменная text_input пустой
@@ -240,7 +213,6 @@ def main():
             # Generate exercises
             df = generate_exercises(text_input)
 
-            # Download CSV
             csv_data = df.to_csv(index=False)
             st.download_button(
                 "Скачать файл",
@@ -251,10 +223,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-# In[ ]:
-
-
-
-
